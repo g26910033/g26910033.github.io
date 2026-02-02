@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台灣綠黨賀歲募款單</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+        :root {
+            --theme-color: #000000;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0e0e0;
+            color: var(--theme-color);
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            /* 調整頁面內距：左右縮減至 10mm 以增加內容寬度 */
+            padding: 10mm 10mm; 
+            margin: 30px auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .half-page {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 4mm 0;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 5px; /* 稍微減少標題下方留白 */
+            padding-bottom: 5px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Logo 容器樣式 */
+        .logo-placeholder {
+            width: 300px; /* 稍微加寬 Logo 區域 */
+            height: 65px;
+            border: 1px dashed #ccc;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+            cursor: pointer;
+            position: relative;
+            background: #fafafa;
+        }
+
+        .logo-placeholder:hover {
+            background-color: #f0f0f0;
+            border-color: #999;
+        }
+
+        .logo-placeholder img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        .logo-placeholder.has-image {
+            border: none;
+            background: transparent;
+            height: auto;
+            min-height: 50px;
+        }
+        
+        .logo-placeholder.has-image img { display: block; }
+        .logo-placeholder.has-image .logo-hint { display: none; }
+
+        .logo-hint {
+            font-size: 12px;
+            color: #aaa;
+            font-weight: bold;
+        }
+
+        .org-name {
+            font-size: 36px;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: 5px;
+            color: var(--theme-color);
+            font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif; 
+        }
+
+        /* 主內容容器 */
+        .main-content {
+            display: flex;
+            flex: 1;
+            /* 減少左右區塊間距，把空間留給文字 */
+            gap: 25px; 
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px; /* 減少內容左右留白 */
+        }
+
+        /* 左側：QR Code 區 */
+        .qr-section {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .qr-row-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px; /* QR 之間稍微緊湊一點 */
+        }
+
+        .qr-row-bottom {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* 右側：文字區 */
+        .text-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            border-left: 1px solid #ddd; 
+            /* 減少分隔線到文字的距離 */
+            padding-left: 20px; 
+            height: 90%;
+        }
+
+        .card {
+            border: none;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: transparent;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 900;
+            margin-bottom: 6px;
+            background: transparent;
+            color: var(--theme-color);
+            border: none;
+            width: 100%;
+            padding: 4px 0;
+        }
+
+        .qr-placeholder {
+            width: 110px;
+            height: 110px;
+            border: 2px dashed #999;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0;
+            cursor: pointer;
+            position: relative;
+            background-color: #fafafa;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .qr-placeholder:hover {
+            background-color: #eee;
+            border-color: #000;
+        }
+
+        .qr-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        .qr-placeholder.has-image img { display: block; }
+        .qr-placeholder.has-image .hint { display: none; }
+        .qr-placeholder.has-image { border: none; background: transparent; }
+
+        .hint {
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+            line-height: 1.4;
+            font-weight: bold;
+        }
+
+        /* 文案區塊樣式：增強閱讀性 */
+        .message-box {
+            font-size: 15px;
+            line-height: 1.8;
+            text-align: justify;
+            /* 針對中文排版優化，避免單字換行 */
+            text-justify: inter-ideograph; 
+            color: #222;
+            font-weight: 500;
+            /* 微調字距，讓版面更滿，減少換行 */
+            letter-spacing: 0.02em; 
+        }
+        
+        .message-box p {
+            margin: 0 0 12px 0;
+        }
+        
+        /* 開頭賀詞加強 */
+        .greeting-head {
+            font-size: 18px;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .message-box strong {
+            font-weight: 900;
+        }
+
+        .cut-line {
+            width: 100%;
+            border-top: 1px dashed #999;
+            margin: 10px 0;
+            opacity: 0.4;
+            flex-shrink: 0;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 220px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border: 1px solid #999;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 2px solid #000;
+            background: #fff;
+            color: #000;
+            border-radius: 6px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn:hover { background: #000; color: #fff; }
+
+        input[type="file"] { display: none; }
+
+        @media print {
+            .controls { display: none !important; }
+            .page { margin: 0; box-shadow: none; height: 100vh; padding: 5mm; }
+            body { background: white; }
+            .qr-placeholder { border-style: solid; border-width: 1px; }
+            .qr-placeholder.has-image { border: none; }
+            .logo-placeholder { display: none; } 
+            .logo-placeholder.has-image { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 檔案上傳控件 -->
+    <input type="file" id="input-logo" accept="image/*" onchange="updateAllImages(this, 'preview-logo')">
+    <input type="file" id="input-regular" accept="image/*" onchange="updateAllImages(this, 'preview-regular')">
+    <input type="file" id="input-single" accept="image/*" onchange="updateAllImages(this, 'preview-single')">
+    <input type="file" id="input-party" accept="image/*" onchange="updateAllImages(this, 'preview-party')">
+
+    <div class="controls">
+        <div style="font-size:13px; color:#000; margin-bottom:10px; font-weight:900; text-align:center;">下載功能</div>
+        <button class="btn" onclick="exportPDF()"><span>📄</span> 下載 PDF (輕量版)</button>
+        <button class="btn" onclick="exportSVG()"><span>📐</span> 下載向量 SVG</button>
+    </div>
+
+    <div class="page" id="printable-area">
+        
+        <!-- 上半部 -->
+        <div class="half-page">
+            <header>
+                <!-- Logo 區域 -->
+                <div class="logo-placeholder" onclick="document.getElementById('input-logo').click()">
+                    <span class="logo-hint">點擊上傳 Logo</span>
+                    <img class="preview-logo" src="" alt="Logo">
+                </div>
+                <!-- 標題 -->
+                <h1 class="org-name">祝您新年快樂</h1>
+            </header>
+
+            <div class="main-content">
+                <!-- 左側 QR 區 -->
+                <div class="qr-section">
+                    <div class="qr-row-top">
+                        <!-- 定期定額 -->
+                        <div class="card">
+                            <div class="card-title">定期定額</div>
+                            <div class="qr-placeholder" onclick="document.getElementById('input-regular').click()">
+                                <div class="hint">點擊上傳<br>定期定額 QR</div>
+                                <img class="preview-regular" src="" alt="QR">
+                            </div>
+                        </div>
+                        <!-- 單筆捐款 -->
+                        <div class="card">
+                            <div class="card-title">單筆捐款</div>
+                            <div class="qr-placeholder" onclick="document.getElementById('input-single').click()">
+                                <div class="hint">點擊上傳<br>單筆捐款 QR</div>
+                                <img class="preview-single" src="" alt="QR">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="qr-row-bottom">
+                        <!-- 入黨 QR -->
+                        <div class="card">
+                            <div class="card-title">入黨</div>
+                            <div class="qr-placeholder" onclick="document.getElementById('input-party').click()">
+                                <div class="hint">點擊上傳<br>入黨連結</div>
+                                <img class="preview-party" src="" alt="QR">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側 文字區 -->
+                <div class="text-section">
+                    <div class="message-box">
+                        <span class="greeting-head">新春快樂！感謝您一路以來的支持與陪伴。</span>
+                        <p>
+                            這兩年，綠黨在無專職人力的情況下堅守崗位，全因有您的信任，讓我們能持續發聲。
+                        </p>
+                        <p>
+                            展望新的一年，我們渴望創造更多實績。若定期定額每月能增加<strong>5萬</strong>，我們將能聘請一位專職夥伴；若增加<strong>10萬</strong>，更能倍增戰力，助綠黨走得更遠。
+                        </p>
+                        <p style="margin-bottom: 0;">
+                            誠摯邀請您 <strong>加入/重回綠黨</strong>，成為我們堅強的後盾，與我們一同參與決策，共創綠色未來！
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cut-line"></div>
+
+        <!-- 下半部 (複製上半部) -->
+        <div class="half-page">
+            <header>
+                <!-- Logo 區域 -->
+                <div class="logo-placeholder" onclick="document.getElementById('input-logo').click()">
+                    <span class="logo-hint">點擊上傳 Logo</span>
+                    <img class="preview-logo" src="" alt="Logo">
+                </div>
+                <!-- 標題 -->
+                <h1 class="org-name">祝您新年快樂</h1>
+            </header>
+
+            <div class="main-content">
+                <!-- 左側 QR 區 -->
+                <div class="qr-section">
+                    <div class="qr-row-top">
+                        <!-- 定期定額 -->
+                        <div class="card">
+                            <div class="card-title">定期定額</div>
+                            <div class="qr-placeholder" onclick="document.getElementById('input-regular').click()">
+                                <div class="hint">點擊上傳<br>定期定額 QR</div>
+                                <img class="preview-regular" src="" alt="QR">
+                            </div>
+                        </div>
+                        <!-- 單筆捐款 -->
+                        <div class="card">
+                            <div class="card-title">單筆捐款</div>
+                            <div class="qr-placeholder" onclick="document.getElementById('input-single').click()">
+                                <div class="hint">點擊上傳<br>單筆捐款 QR</div>
+                                <img class="preview-single" src="" alt="QR">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="qr-row-bottom">
+                        <!-- 入黨 QR -->
+                        <div class="card">
+                            <div class="card-title">入黨</div>
+                            <div class="qr-placeholder" onclick="document.getElementById('input-party').click()">
+                                <div class="hint">點擊上傳<br>入黨連結</div>
+                                <img class="preview-party" src="" alt="QR">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側 文字區 -->
+                <div class="text-section">
+                    <div class="message-box">
+                        <span class="greeting-head">新春快樂！感謝您一路以來的支持與陪伴。</span>
+                        <p>
+                            這兩年，綠黨在無專職人力的情況下堅守崗位，全因有您的信任，讓我們能持續發聲。
+                        </p>
+                        <p>
+                            展望新的一年，我們渴望創造更多實績。若定期定額每月能增加<strong>5萬</strong>，我們將能聘請一位專職夥伴；若增加<strong>10萬</strong>，更能倍增戰力，助綠黨走得更遠。
+                        </p>
+                        <p style="margin-bottom: 0;">
+                            誠摯邀請您 <strong>加入/重回綠黨</strong>，成為我們堅強的後盾，與我們一同參與決策，共創綠色未來！
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function updateAllImages(input, imgClass) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const images = document.querySelectorAll('.' + imgClass);
+                    images.forEach(img => {
+                        img.src = e.target.result;
+                        img.parentElement.classList.add('has-image');
+                    });
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function prepareCapture() {
+            document.querySelectorAll('.hint, .logo-hint').forEach(el => el.style.opacity = '0');
+            document.querySelectorAll('.qr-placeholder:not(.has-image)').forEach(el => {
+                el.style.borderStyle = 'solid';
+                el.style.borderColor = '#ccc';
+            });
+            // 沒上傳Logo時隱藏佔位符
+            document.querySelectorAll('.logo-placeholder:not(.has-image)').forEach(el => {
+                el.style.display = 'none';
+            });
+        }
+
+        function restoreCapture() {
+            document.querySelectorAll('.hint, .logo-hint').forEach(el => el.style.opacity = '1');
+            document.querySelectorAll('.qr-placeholder:not(.has-image)').forEach(el => {
+                el.style.borderStyle = 'dashed';
+            });
+            document.querySelectorAll('.logo-placeholder:not(.has-image)').forEach(el => {
+                el.style.display = 'flex';
+            });
+        }
+
+        function exportSVG() {
+            prepareCapture();
+            domtoimage.toSvg(document.getElementById('printable-area'))
+                .then(dataUrl => {
+                    const link = document.createElement('a');
+                    link.download = '綠黨賀歲募款單_排版優化版_向量.svg';
+                    link.href = dataUrl;
+                    link.click();
+                    restoreCapture();
+                });
+        }
+
+        function exportPDF() {
+            const { jsPDF } = window.jspdf;
+            prepareCapture();
+            
+            const element = document.getElementById('printable-area');
+            
+            html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/jpeg', 0.75);
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                
+                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('綠黨賀歲募款單_排版優化版.pdf');
+                
+                restoreCapture();
+            });
+        }
+    </script>
+</body>
+</html>
