@@ -187,7 +187,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
         <div class="countdown-cell"><b id="cdSeconds">--</b><span>秒</span></div>
       </div>
       <div class="small" style="color:#eadbd6">開放：2026/10/19 09:15<br>截止：10/30 16:00｜10/26 休所<br>結果公布日：12/11</div>
-      <div class="version-line"><span class="version-chip">版本 2610016</span><span>更新：<span class="last-updated">讀取中</span></span><span id="syncStatus" class="sync-status">雲端：載入中</span></div>
+      <div class="version-line"><span class="version-chip">版本 2610017</span><span>更新：<span class="last-updated">讀取中</span></span><span id="syncStatus" class="sync-status">雲端：載入中</span></div>
     </div>
   </div>
 </header>
@@ -539,7 +539,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
   <div class="container">
     <b>用途：</b>朋友間申請準備與自我檢查。這不是日本台灣交流協會官方網站，也不是法律或簽證核發保證。若本頁與官方最新公告不一致，以官方公告為準。
     <div class="version-footer">
-      <span>版本 <b>2610016</b>｜版本規則：YYMMDD＋當日序號</span>
+      <span>版本 <b>2610017</b>｜版本規則：YYMMDD＋當日序號</span>
       <span>最後更新：<b class="last-updated">讀取中</b></span>
     </div>
   </div>
@@ -593,8 +593,8 @@ let applyingCloud=false;
 let cloudReady=false;
 
 function cloudState(){
-  const docs={}; $$$('.doc-check').forEach(c=>docs[c.id]=c.checked);
-  const writing={}; $$$('.writing-check').forEach(c=>writing[c.id]=c.checked);
+  const docs={}; $('.doc-check').forEach(c=>docs[c.id]=c.checked);
+  const writing={}; $('.writing-check').forEach(c=>writing[c.id]=c.checked);
   return {applyDate:$('#applyDate').value,office:$('#office').value,docs,writing};
 }
 function applyCloud(state){
@@ -602,8 +602,8 @@ function applyCloud(state){
   applyingCloud=true;
   if(state.applyDate) $('#applyDate').value=state.applyDate;
   if(state.office) $('#office').value=state.office;
-  if(state.docs) $$$('.doc-check').forEach(c=>{if(Object.prototype.hasOwnProperty.call(state.docs,c.id)) c.checked=!!state.docs[c.id]});
-  if(state.writing) $$$('.writing-check').forEach(c=>{if(Object.prototype.hasOwnProperty.call(state.writing,c.id)) c.checked=!!state.writing[c.id]});
+  if(state.docs) $('.doc-check').forEach(c=>{if(Object.prototype.hasOwnProperty.call(state.docs,c.id)) c.checked=!!state.docs[c.id]});
+  if(state.writing) $('.writing-check').forEach(c=>{if(Object.prototype.hasOwnProperty.call(state.writing,c.id)) c.checked=!!state.writing[c.id]});
   updatePlanner(); updateOffice(); updateProgress(); updateWritingLocal();
   applyingCloud=false;
 }
