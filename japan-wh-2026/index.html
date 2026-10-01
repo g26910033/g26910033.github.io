@@ -110,12 +110,6 @@ input[type="date"],select{
 .pill.req{background:#fbe7e4;color:#8b1e13}.pill.opt{background:#eef3f7;color:#405365}
 .version-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;font-size:.78rem;color:#eadbd6}
 .version-chip{display:inline-flex;align-items:center;padding:4px 9px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.08);font-weight:750;color:white}
-.sync-code{width:100%;padding:10px 11px;border:1px solid #cfcac0;border-radius:10px;background:white;color:var(--ink);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.84rem}
-.sync-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.sync-actions .btn{padding:8px 12px}
-.cloud-state{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.88rem}
-.cloud-dot{width:9px;height:9px;border-radius:50%;background:#999;flex:0 0 auto}
-.cloud-dot.ok{background:var(--ok)}.cloud-dot.busy{background:var(--warn)}.cloud-dot.err{background:var(--accent)}
 .version-footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
 .docs{display:grid;gap:10px}
 .doc{
@@ -191,7 +185,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
         <div class="countdown-cell"><b id="cdSeconds">--</b><span>秒</span></div>
       </div>
       <div class="small" style="color:#eadbd6">開放：2026/10/19 09:15<br>截止：10/30 16:00｜10/26 休所<br>結果公布日：12/11</div>
-      <div class="version-line"><span class="version-chip">版本 2610011</span><span>更新：<span class="last-updated">讀取中</span></span></div>
+      <div class="version-line"><span class="version-chip">版本 2610012</span><span>更新：<span class="last-updated">讀取中</span></span></div>
     </div>
   </div>
 </header>
@@ -201,7 +195,6 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
     <a href="#overview">關鍵日期</a>
     <a href="#eligibility">資格快篩</a>
     <a href="#planner">送件日規劃</a>
-    <a href="#cloud-sync">雲端同步</a>
     <a href="#documents">文件清單</a>
     <a href="#writing">理由書／計畫書</a>
     <a href="#submission">現場送件</a>
@@ -296,43 +289,6 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
       </table>
       <p class="small">入出國日期證明要有最近 3 年紀錄，且包含「入出境地點」資訊。具自然人憑證者可使用移民署線上申辦並自行列印。</p>
       <a class="btn hide-print" target="_blank" rel="noopener" href="https://www.gov.tw/News_Content_2_371276">移民署／E政府線上申辦說明</a>
-    </div>
-  </div>
-</section>
-
-<section id="cloud-sync">
-  <div class="section-head">
-    <div><h2>跨裝置雲端同步</h2></div>
-    <p>建立一次同步碼後，換手機、換電腦都能載入同一份申請進度。本機仍會保留副本。</p>
-  </div>
-  <div class="grid">
-    <div class="card span-7">
-      <h3 style="margin-top:0">這台裝置</h3>
-      <div id="cloudIntro">
-        <p>第一次使用請按「建立雲端同步」。系統會建立一組不可猜測的同步碼；之後把同步碼或同步連結保存好。</p>
-      </div>
-      <label class="field">
-        <span>同步碼</span>
-        <input id="syncCode" class="sync-code" type="text" autocomplete="off" spellcheck="false" placeholder="尚未建立；或貼上其他裝置的同步碼／同步連結">
-      </label>
-      <div class="sync-actions hide-print">
-        <button class="btn primary" id="cloudCreateSave" type="button">建立／立即儲存</button>
-        <button class="btn" id="cloudLoad" type="button">載入同步碼</button>
-        <button class="btn" id="cloudCopyCode" type="button">複製同步碼</button>
-        <button class="btn" id="cloudCopyLink" type="button">複製同步連結</button>
-        <button class="btn" id="cloudDetach" type="button">解除這台裝置</button>
-      </div>
-      <div class="cloud-state"><span class="cloud-dot" id="cloudDot"></span><span id="cloudStatus">尚未啟用雲端同步</span></div>
-    </div>
-    <div class="card span-5">
-      <h3 style="margin-top:0">同步範圍與隱私</h3>
-      <ul>
-        <li>同步：預定送件日、送件事務所、11 項文件完成狀態、理由書／計畫書自我檢查。</li>
-        <li><b>不同步：</b>出生日期、姓名、護照號碼與其他資格快篩個資。</li>
-        <li>同步碼本身等同存取鑰匙；拿到同步碼的人可讀取並修改這份進度。</li>
-        <li>即使雲端服務暫時失效，本機紀錄仍保留，可稍後再同步。</li>
-      </ul>
-      <div class="alert warn"><b>請保存同步碼。</b>本站沒有帳號系統，也無法替你找回遺失的同步碼。</div>
     </div>
   </div>
 </section>
@@ -581,7 +537,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
   <div class="container">
     <b>用途：</b>朋友間申請準備與自我檢查。這不是日本台灣交流協會官方網站，也不是法律或簽證核發保證。若本頁與官方最新公告不一致，以官方公告為準。
     <div class="version-footer">
-      <span>版本 <b>2610011</b>｜版本規則：YYMMDD＋當日序號</span>
+      <span>版本 <b>2610012</b>｜版本規則：YYMMDD＋當日序號</span>
       <span>最後更新：<b class="last-updated">讀取中</b></span>
     </div>
   </div>
@@ -606,119 +562,6 @@ function shiftMonths(d,n){
 function ymd(d){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-const SITE_VERSION='2610011';
-const CLOUD_API='https://api.jsonstorage.net/v1/json';
-const CLOUD_URI_KEY='jpwh2026_cloudUri';
-let cloudUri=localStorage.getItem(CLOUD_URI_KEY)||'';
-let cloudSaveTimer=null;
-let cloudApplying=false;
-
-function encodeSyncCode(uri){
-  return btoa(uri).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-}
-function decodeSyncCode(code){
-  try{
-    let raw=(code||'').trim();
-    if(raw.includes('#sync=')) raw=raw.split('#sync=')[1].split('&')[0];
-    raw=raw.replace(/-/g,'+').replace(/_/g,'/');
-    while(raw.length%4) raw+='=';
-    const uri=atob(raw);
-    return uri.startsWith(CLOUD_API+'/')?uri:'';
-  }catch(e){return ''}
-}
-function setCloudStatus(message,state=''){
-  $('#cloudStatus').textContent=message;
-  $('#cloudDot').className='cloud-dot'+(state?' '+state:'');
-}
-function collectCloudState(){
-  const docs={};
-  $('.doc-check').forEach(c=>docs[c.id]=c.checked);
-  const writing={};
-  $('.writing-check').forEach(c=>writing[c.id]=c.checked);
-  return {
-    applyDate:$('#applyDate').value,
-    office:$('#office').value,
-    docs,
-    writing
-  };
-}
-function applyCloudState(state){
-  if(!state||typeof state!=='object') return;
-  cloudApplying=true;
-  if(state.applyDate) $('#applyDate').value=state.applyDate;
-  if(state.office) $('#office').value=state.office;
-  if(state.docs) $('.doc-check').forEach(c=>{if(Object.prototype.hasOwnProperty.call(state.docs,c.id)) c.checked=!!state.docs[c.id]});
-  if(state.writing) $('.writing-check').forEach(c=>{if(Object.prototype.hasOwnProperty.call(state.writing,c.id)) c.checked=!!state.writing[c.id]});
-  updatePlanner(); updateOffice(); updateProgress(); updateWritingLocal();
-  cloudApplying=false;
-}
-function cloudEnvelope(){
-  return {
-    app:'jpwh2026',
-    schema:1,
-    siteVersion:SITE_VERSION,
-    updatedAt:new Date().toISOString(),
-    state:collectCloudState()
-  };
-}
-async function createCloudRecord(){
-  setCloudStatus('正在建立雲端紀錄…','busy');
-  const res=await fetch(CLOUD_API,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(cloudEnvelope())
-  });
-  if(!res.ok) throw new Error('建立失敗 '+res.status);
-  const data=await res.json();
-  if(!data.uri||!data.uri.startsWith(CLOUD_API+'/')) throw new Error('雲端服務未回傳有效 URI');
-  cloudUri=data.uri;
-  localStorage.setItem(CLOUD_URI_KEY,cloudUri);
-  $('#syncCode').value=encodeSyncCode(cloudUri);
-  setCloudStatus('雲端同步已建立','ok');
-}
-async function saveCloudNow(){
-  try{
-    if(!cloudUri){await createCloudRecord();return}
-    setCloudStatus('正在同步…','busy');
-    const res=await fetch(cloudUri,{
-      method:'PUT',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(cloudEnvelope())
-    });
-    if(!res.ok) throw new Error('同步失敗 '+res.status);
-    $('#syncCode').value=encodeSyncCode(cloudUri);
-    setCloudStatus('已同步 '+new Intl.DateTimeFormat('zh-TW',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date()),'ok');
-  }catch(e){
-    setCloudStatus('雲端同步失敗；本機紀錄仍保留','err');
-    console.error(e);
-  }
-}
-function scheduleCloudSave(){
-  if(cloudApplying||!cloudUri) return;
-  clearTimeout(cloudSaveTimer);
-  cloudSaveTimer=setTimeout(saveCloudNow,1800);
-}
-async function loadCloudUri(uri){
-  setCloudStatus('正在載入雲端紀錄…','busy');
-  const res=await fetch(uri,{method:'GET'});
-  if(!res.ok) throw new Error('載入失敗 '+res.status);
-  const data=await res.json();
-  if(data.app!=='jpwh2026'||!data.state) throw new Error('不是本工作站的同步資料');
-  cloudUri=uri;
-  localStorage.setItem(CLOUD_URI_KEY,cloudUri);
-  $('#syncCode').value=encodeSyncCode(cloudUri);
-  applyCloudState(data.state);
-  setCloudStatus('已載入雲端紀錄','ok');
-}
-async function initCloudSync(){
-  const hash=location.hash.startsWith('#sync=')?location.hash.slice(6):'';
-  const fromHash=decodeSyncCode(hash);
-  if(fromHash) cloudUri=fromHash;
-  if(cloudUri){
-    $('#syncCode').value=encodeSyncCode(cloudUri);
-    try{await loadCloudUri(cloudUri)}catch(e){setCloudStatus('無法載入雲端紀錄；先使用本機副本','err')}
-  }
-}
 function updateWritingLocal(){
   $('.writing-check').forEach(c=>localStorage.setItem('jpwh2026_'+c.id,c.checked?'1':'0'));
 }
@@ -729,11 +572,11 @@ async function loadLastUpdated(){
     const data=await res.json();
     const iso=data?.[0]?.commit?.committer?.date;
     if(!iso) throw new Error();
-    const text=new Intl.DateTimeFormat('zh-TW',{
+    const txt=new Intl.DateTimeFormat('zh-TW',{
       timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit',
       hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false
     }).format(new Date(iso));
-    $('.last-updated').forEach(el=>el.textContent=text);
+    $('.last-updated').forEach(el=>el.textContent=txt);
   }catch(e){
     $('.last-updated').forEach(el=>el.textContent='2026/10/01');
   }
@@ -836,35 +679,12 @@ function restore(){
   updatePlanner();updateOffice();updateProgress();updateWritingLocal();
 }
 $('#checkEligibility').addEventListener('click',checkEligibility);
-$('#applyDate').addEventListener('change',()=>{updatePlanner();scheduleCloudSave()});
-$('#office').addEventListener('change',()=>{updateOffice();scheduleCloudSave()});
+$('#applyDate').addEventListener('change',updatePlanner);
+$('#office').addEventListener('change',updateOffice);
 $('.doc-check').forEach(c=>c.addEventListener('change',()=>{updateProgress();scheduleCloudSave()}));
 $('.writing-check').forEach(c=>c.addEventListener('change',()=>{updateWritingLocal();scheduleCloudSave()}));
 $('#resetProgress').addEventListener('click',()=>{
   $('.doc-check').forEach(c=>c.checked=false); updateProgress(); scheduleCloudSave();
-});
-$('#cloudCreateSave').addEventListener('click',saveCloudNow);
-$('#cloudLoad').addEventListener('click',async()=>{
-  const uri=decodeSyncCode($('#syncCode').value);
-  if(!uri){setCloudStatus('同步碼格式不正確','err');return}
-  try{await loadCloudUri(uri)}catch(e){setCloudStatus('找不到或無法載入此同步碼','err')}
-});
-$('#cloudCopyCode').addEventListener('click',async()=>{
-  if(!cloudUri){setCloudStatus('請先建立或載入雲端同步','err');return}
-  const code=encodeSyncCode(cloudUri);
-  $('#syncCode').value=code;
-  try{await navigator.clipboard.writeText(code);setCloudStatus('同步碼已複製','ok')}catch(e){setCloudStatus('請手動複製同步碼','err')}
-});
-$('#cloudCopyLink').addEventListener('click',async()=>{
-  if(!cloudUri){setCloudStatus('請先建立或載入雲端同步','err');return}
-  const link=location.origin+location.pathname+'#sync='+encodeSyncCode(cloudUri);
-  try{await navigator.clipboard.writeText(link);setCloudStatus('同步連結已複製','ok')}catch(e){setCloudStatus('無法自動複製，請改複製同步碼','err')}
-});
-$('#cloudDetach').addEventListener('click',()=>{
-  cloudUri='';
-  localStorage.removeItem(CLOUD_URI_KEY);
-  $('#syncCode').value='';
-  setCloudStatus('已解除這台裝置；雲端紀錄本身未刪除');
 });
 $('#shareBtn').addEventListener('click',async()=>{
   const data={title:document.title,text:'2026 年後期日本打工度假申請工作站'};
@@ -875,7 +695,7 @@ $('#shareBtn').addEventListener('click',async()=>{
     else alert('目前是單一 HTML 檔。直接把這個檔案傳給朋友即可；若放到網站空間，分享按鈕會自動分享網址。');
   }catch(e){}
 });
-updateCountdown(); restore(); loadLastUpdated(); initCloudSync();
+updateCountdown(); restore(); loadLastUpdated();
 setInterval(updateCountdown,1000);
 </script>
 </body>
