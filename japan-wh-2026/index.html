@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="2026 年後期日本打工度假申請工作站（台灣申請人）">
 <title>2026 日本打工度假・後期申請工作站</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"></script>
 <style>
 :root{
   --bg:#f7f7f5;
@@ -111,6 +112,12 @@ input[type="date"],select{
 .version-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;font-size:.78rem;color:#eadbd6}
 .version-chip{display:inline-flex;align-items:center;padding:4px 9px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.08);font-weight:750;color:white}
 .version-footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.auth-card{border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.auth-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.auth-row input{flex:1 1 240px;min-width:0}
+.sync-status{font-size:.88rem;color:var(--muted);margin-top:8px}
+.sync-status.ok{color:var(--ok)}.sync-status.err{color:var(--accent)}
+.account-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#eef3f7;font-size:.82rem;font-weight:700}
 .docs{display:grid;gap:10px}
 .doc{
   border:1px solid var(--line);border-radius:14px;background:#fff;padding:15px;
@@ -185,7 +192,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
         <div class="countdown-cell"><b id="cdSeconds">--</b><span>秒</span></div>
       </div>
       <div class="small" style="color:#eadbd6">開放：2026/10/19 09:15<br>截止：10/30 16:00｜10/26 休所<br>結果公布日：12/11</div>
-      <div class="version-line"><span class="version-chip">版本 2610012</span><span>更新：<span class="last-updated">讀取中</span></span></div>
+      <div class="version-line"><span class="version-chip">版本 2610013</span><span>更新：<span class="last-updated">讀取中</span></span></div>
     </div>
   </div>
 </header>
@@ -195,6 +202,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
     <a href="#overview">關鍵日期</a>
     <a href="#eligibility">資格快篩</a>
     <a href="#planner">送件日規劃</a>
+    <a href="#account-sync">雲端同步</a>
     <a href="#documents">文件清單</a>
     <a href="#writing">理由書／計畫書</a>
     <a href="#submission">現場送件</a>
@@ -289,6 +297,42 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
       </table>
       <p class="small">入出國日期證明要有最近 3 年紀錄，且包含「入出境地點」資訊。具自然人憑證者可使用移民署線上申辦並自行列印。</p>
       <a class="btn hide-print" target="_blank" rel="noopener" href="https://www.gov.tw/News_Content_2_371276">移民署／E政府線上申辦說明</a>
+    </div>
+  </div>
+</section>
+
+<section id="account-sync">
+  <div class="section-head">
+    <div><h2>免費跨裝置同步</h2></div>
+    <p>不需要同步碼。登入後會把這份申請進度自動存到雲端；換裝置用同一個 Email 登入即可接續。</p>
+  </div>
+  <div class="grid">
+    <div class="card span-7">
+      <div id="signedOutBox">
+        <h3 style="margin-top:0">用 Email 登入</h3>
+        <div class="auth-row">
+          <input id="authEmail" type="email" autocomplete="email" placeholder="你的 Email">
+          <button class="btn primary hide-print" id="sendMagicLink" type="button">寄送登入連結</button>
+        </div>
+        <div id="authStatus" class="sync-status">第一次輸入 Email 即會建立免費帳號；之後不用密碼。</div>
+      </div>
+      <div id="signedInBox" hidden>
+        <div class="account-chip">已登入：<span id="accountEmail"></span></div>
+        <div id="syncStatus" class="sync-status ok">雲端同步已啟用</div>
+        <div class="sync-actions hide-print" style="margin-top:10px">
+          <button class="btn" id="syncNow" type="button">立即同步</button>
+          <button class="btn" id="signOutBtn" type="button">登出</button>
+        </div>
+      </div>
+    </div>
+    <div class="card span-5">
+      <h3 style="margin-top:0">會同步什麼？</h3>
+      <ul>
+        <li>預定送件日與台北／高雄事務所</li>
+        <li>11 項文件完成狀態</li>
+        <li>理由書／計畫書自我檢查狀態</li>
+      </ul>
+      <p class="small"><b>不同步：</b>出生日期、姓名、護照號碼與資格快篩個資。未登入時仍照常保存在目前瀏覽器。</p>
     </div>
   </div>
 </section>
@@ -537,7 +581,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
   <div class="container">
     <b>用途：</b>朋友間申請準備與自我檢查。這不是日本台灣交流協會官方網站，也不是法律或簽證核發保證。若本頁與官方最新公告不一致，以官方公告為準。
     <div class="version-footer">
-      <span>版本 <b>2610012</b>｜版本規則：YYMMDD＋當日序號</span>
+      <span>版本 <b>2610013</b>｜版本規則：YYMMDD＋當日序號</span>
       <span>最後更新：<b class="last-updated">讀取中</b></span>
     </div>
   </div>
@@ -582,6 +626,69 @@ async function loadLastUpdated(){
   }
 }
 
+const SUPABASE_URL='https://itbbwxjcamljsdbdbyht.supabase.co';
+const SUPABASE_KEY='sb_publishable_RvcqpSmzarFvb4DIIPop9Q_LjYGkDdJ';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
+  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+});
+let activeSession=null;
+let cloudTimer=null;
+let applyingCloud=false;
+
+function cloudState(){
+  const docs={}; $('.doc-check').forEach(c=>docs[c.id]=c.checked);
+  const writing={}; $('.writing-check').forEach(c=>writing[c.id]=c.checked);
+  return {applyDate:$('#applyDate').value,office:$('#office').value,docs,writing};
+}
+function applyCloud(state){
+  if(!state) return;
+  applyingCloud=true;
+  if(state.applyDate) $('#applyDate').value=state.applyDate;
+  if(state.office) $('#office').value=state.office;
+  if(state.docs) $('.doc-check').forEach(c=>{if(Object.prototype.hasOwnProperty.call(state.docs,c.id)) c.checked=!!state.docs[c.id]});
+  if(state.writing) $('.writing-check').forEach(c=>{if(Object.prototype.hasOwnProperty.call(state.writing,c.id)) c.checked=!!state.writing[c.id]});
+  updatePlanner(); updateOffice(); updateProgress(); updateWritingLocal();
+  applyingCloud=false;
+}
+async function loadCloud(){
+  if(!activeSession) return;
+  const {data,error}=await sb.from('jpwh_progress').select('state,updated_at').eq('user_id',activeSession.user.id).maybeSingle();
+  if(error){$('#syncStatus').textContent='雲端載入失敗；目前使用本機進度';$('#syncStatus').className='sync-status err';return}
+  if(data?.state){applyCloud(data.state);$('#syncStatus').textContent='已載入雲端進度';$('#syncStatus').className='sync-status ok'}
+  else await saveCloud();
+}
+async function saveCloud(){
+  if(!activeSession||applyingCloud) return;
+  $('#syncStatus').textContent='同步中…'; $('#syncStatus').className='sync-status';
+  const {error}=await sb.from('jpwh_progress').upsert({
+    user_id:activeSession.user.id,
+    state:cloudState(),
+    updated_at:new Date().toISOString()
+  },{onConflict:'user_id'});
+  if(error){$('#syncStatus').textContent='同步失敗；本機紀錄仍保留';$('#syncStatus').className='sync-status err'}
+  else{$('#syncStatus').textContent='已自動同步 '+new Intl.DateTimeFormat('zh-TW',{hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());$('#syncStatus').className='sync-status ok'}
+}
+function scheduleCloud(){
+  if(!activeSession||applyingCloud) return;
+  clearTimeout(cloudTimer); cloudTimer=setTimeout(saveCloud,1200);
+}
+function renderAuth(session){
+  activeSession=session||null;
+  $('#signedOutBox').hidden=!!session;
+  $('#signedInBox').hidden=!session;
+  if(session){
+    $('#accountEmail').textContent=session.user.email||'已登入';
+  }
+}
+async function initAuth(){
+  const {data}=await sb.auth.getSession();
+  renderAuth(data.session);
+  if(data.session) await loadCloud();
+  sb.auth.onAuthStateChange(async(event,session)=>{
+    renderAuth(session);
+    if(event==='SIGNED_IN'&&session) await loadCloud();
+  });
+}
 function updateCountdown(){
   const now = new Date();
   const open = new Date('2026-10-19T09:15:00+08:00');
@@ -679,13 +786,24 @@ function restore(){
   updatePlanner();updateOffice();updateProgress();updateWritingLocal();
 }
 $('#checkEligibility').addEventListener('click',checkEligibility);
-$('#applyDate').addEventListener('change',updatePlanner);
-$('#office').addEventListener('change',updateOffice);
+$('#applyDate').addEventListener('change',()=>{updatePlanner();scheduleCloud()});
+$('#office').addEventListener('change',()=>{updateOffice();scheduleCloud()});
 $('.doc-check').forEach(c=>c.addEventListener('change',()=>{updateProgress();scheduleCloudSave()}));
 $('.writing-check').forEach(c=>c.addEventListener('change',()=>{updateWritingLocal();scheduleCloudSave()}));
 $('#resetProgress').addEventListener('click',()=>{
   $('.doc-check').forEach(c=>c.checked=false); updateProgress(); scheduleCloudSave();
 });
+$('#sendMagicLink').addEventListener('click',async()=>{
+  const email=$('#authEmail').value.trim();
+  if(!email){$('#authStatus').textContent='請先輸入 Email';$('#authStatus').className='sync-status err';return}
+  $('#authStatus').textContent='正在寄送登入連結…';$('#authStatus').className='sync-status';
+  const redirect=location.origin+location.pathname;
+  const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:redirect}});
+  if(error){$('#authStatus').textContent='寄送失敗：'+error.message;$('#authStatus').className='sync-status err'}
+  else{$('#authStatus').textContent='登入連結已寄出，請到信箱點擊。';$('#authStatus').className='sync-status ok'}
+});
+$('#syncNow').addEventListener('click',saveCloud);
+$('#signOutBtn').addEventListener('click',async()=>{await sb.auth.signOut();});
 $('#shareBtn').addEventListener('click',async()=>{
   const data={title:document.title,text:'2026 年後期日本打工度假申請工作站'};
   if(location.protocol.startsWith('http')) data.url=location.href;
@@ -695,7 +813,7 @@ $('#shareBtn').addEventListener('click',async()=>{
     else alert('目前是單一 HTML 檔。直接把這個檔案傳給朋友即可；若放到網站空間，分享按鈕會自動分享網址。');
   }catch(e){}
 });
-updateCountdown(); restore(); loadLastUpdated();
+updateCountdown(); restore(); loadLastUpdated(); initAuth();
 setInterval(updateCountdown,1000);
 </script>
 </body>
