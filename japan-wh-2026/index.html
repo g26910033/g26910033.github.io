@@ -49,6 +49,12 @@ h1{font-size:clamp(2.1rem,5vw,4.1rem);line-height:1.06;margin:.35rem 0 1rem;lett
   backdrop-filter:blur(6px);
 }
 .hero-side strong{display:block;font-size:1.4rem;margin-top:4px}
+.countdown-title{font-size:.82rem;color:#eadbd6;font-weight:700;letter-spacing:.04em}
+.countdown-status{font-size:1.15rem;font-weight:780;margin:4px 0 10px}
+.countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:8px 0 10px}
+.countdown-cell{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:8px 4px;text-align:center}
+.countdown-cell b{display:block;font-size:1.35rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.countdown-cell span{display:block;font-size:.68rem;color:#eadbd6;margin-top:3px}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:7px;
@@ -167,9 +173,15 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
       </div>
     </div>
     <div class="hero-side">
-      <div class="small" style="color:#eadbd6">距離 2026 後期申請</div>
-      <strong id="countdown">計算中</strong>
-      <div class="small" style="color:#eadbd6;margin-top:8px">申請：2026/10/19–10/30<br>10/26 休所｜結果：2026/12/11</div>
+      <div class="countdown-title">2026 後期申請倒數｜台灣時間</div>
+      <div class="countdown-status" id="countdownStatus">計算中</div>
+      <div class="countdown-grid" aria-label="申請倒數">
+        <div class="countdown-cell"><b id="cdDays">--</b><span>天</span></div>
+        <div class="countdown-cell"><b id="cdHours">--</b><span>時</span></div>
+        <div class="countdown-cell"><b id="cdMinutes">--</b><span>分</span></div>
+        <div class="countdown-cell"><b id="cdSeconds">--</b><span>秒</span></div>
+      </div>
+      <div class="small" style="color:#eadbd6">開放：2026/10/19 09:15<br>截止：10/30 16:00｜10/26 休所<br>結果公布日：12/11</div>
     </div>
   </div>
 </header>
@@ -335,30 +347,101 @@ footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);f
 
 <section id="writing">
   <div class="section-head">
-    <div><h2>理由書／計畫書寫作框架</h2></div>
-    <p>官方明確要求申請人本人撰寫；抄襲或有他人代筆之嫌，可能對審查不利。下列只提供組織框架，不是可直接複製的範文。</p>
+    <div><h2>理由書／計畫書寫作工作區</h2></div>
+    <p>官方只要求申請人本人以中文或日文撰寫；以下「推薦寫法」來自申請者經驗分享與民間整理，不是官方評分表，也不能保證通過。</p>
   </div>
-  <div class="grid">
-    <div class="card span-6">
-      <h3 style="margin-top:0">理由書：回答「為什麼一定要用 WH？」</h3>
+
+  <div class="alert">
+    <div class="callout-title">先抓住官方唯一明確的核心</div>
+    <div>打工度假制度是為了讓台灣青年在最長一年期間體驗日本文化與日常生活；「工作」只能用來補足旅費。理由書應回答的是：<b>為什麼你需要用這個制度，才能完成你想在日本做的體驗？</b></div>
+  </div>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="card span-7">
+      <h3 style="margin-top:0">理由書：推薦的 6 段式骨架</h3>
       <ol>
-        <li><b>個人脈絡：</b>你與日本語言、文化、地方、人際或專業興趣的具體連結。</li>
-        <li><b>制度適配：</b>說明你希望透過較長期生活理解日本，而不是單純旅遊，也不是以工作賺錢為主要目的。</li>
-        <li><b>想帶回什麼：</b>具體描述一年後希望形成的經驗、能力或跨文化理解。</li>
-        <li><b>第二次申請者：</b>補充第一次沒有完成、或第二次具明顯不同主題的理由，避免只是「再去一次」。</li>
+        <li><b>我是誰＋日本如何進入我的人生：</b>用一個真實起點開場，例如學日文、旅行、朋友、音樂、料理、地方文化、運動、研究或工作接觸。不要只寫「從小喜歡日本」。</li>
+        <li><b>為什麼是日本：</b>把興趣具體化成「只能／更適合在日本長時間體驗」的內容，例如雪季生活、地方祭典、溫泉鄉、地方創生、職人文化、地方交通、棒球文化、四季農村生活等。</li>
+        <li><b>為什麼不是短期旅遊：</b>說清楚你需要跨季節、跨地區或融入生活圈，才能做到什麼。這一段通常最能回答「為什麼需要 WH」。</li>
+        <li><b>你想實際體驗什麼：</b>挑 2–4 個具體主題，不要把整個日本景點塞滿。最好能直接對應後面的計畫書。</li>
+        <li><b>這一年對你有什麼意義：</b>說明希望累積的語言、跨文化、生活、自主性或專業觀察，以及回台後如何延續。</li>
+        <li><b>結尾：</b>再次扣回「度假／文化生活體驗為主、工作為補助」以及你會依規定完成這一年。</li>
       </ol>
-      <div class="alert warn"><b>避免：</b>把「找到全職工作、賺錢、長期留日」寫成主要目標；這與 WH 制度的度假本旨衝突。</div>
+      <div class="alert warn"><b>第二次申請者：</b>官方要求另外說明「為什麼需要第二次」。建議寫出第一次已完成什麼、仍有哪些不同地域／季節／主題無法完成，以及第二次與第一次的明確差異，而不是單純表示「還想再去一次」。</div>
     </div>
+
+    <div class="card span-5">
+      <h3 style="margin-top:0">網路經驗常見共識</h3>
+      <ul>
+        <li><b>用故事串起來：</b>多篇通過者分享都不是列景點，而是從個人經驗一路推到「為何想長住日本」。</li>
+        <li><b>主題少而具體：</b>滑雪、祭典、音樂、地方生活等主題，比「想體驗日本文化」更有辨識度。</li>
+        <li><b>強調長期性：</b>常見建議是寫出需要跨季節、在地生活或持續交流才能完成的事情。</li>
+        <li><b>工作不要當主角：</b>民間經驗與官方制度目的在這點一致；避免「賺錢、找正職、累積日本工作資歷」成為主軸。</li>
+        <li><b>理由書與計畫書要互證：</b>理由書說最想體驗雪季，計畫書卻完全沒有雪季安排，就會顯得不一致。</li>
+        <li><b>不要抄範文：</b>網路文章適合參考結構與題材，不適合複製句子；真正有用的是把自己的旅行、學習、興趣與生活經驗寫進去。</li>
+      </ul>
+      <div class="small">上述為申請者經驗整理，不是日本台灣交流協會公布的選拔標準。</div>
+    </div>
+
     <div class="card span-6">
-      <h3 style="margin-top:0">計畫書：讓一年的安排「看得出來是真的」</h3>
+      <h3 style="margin-top:0">動筆時可直接回答的 10 個問題</h3>
       <ol>
-        <li><b>分段：</b>用 3–4 個季節／期間呈現，不必每天列行程。</li>
-        <li><b>地點：</b>說明預計居住或移動的城市／地區，以及為什麼選它們。</li>
-        <li><b>活動：</b>文化、地方生活、節慶、自然、語言學習、交流等要具體。</li>
-        <li><b>工作：</b>可寫可能的短期工作類型，但位置應是補貼生活／旅費，而不是整份計畫核心。</li>
-        <li><b>一致性：</b>理由書、履歷、預定入境地點、住宿與計畫書不要互相矛盾。</li>
+        <li>我第一次真正對日本產生興趣，是哪一件具體事情？</li>
+        <li>我已經做過哪些準備：旅行、語言、閱讀、社群、技能？</li>
+        <li>有什麼是 5–10 天旅遊很難做到的？</li>
+        <li>為什麼需要住在當地，而不是一直移動打卡？</li>
+        <li>我最想深入的 2–4 個文化／生活主題是什麼？</li>
+        <li>為什麼偏偏是那些地區或季節？</li>
+        <li>我希望跟什麼樣的日本人／社群互動？</li>
+        <li>工作在整體計畫中扮演什麼「補助旅費」角色？</li>
+        <li>一年後，我希望自己多了什麼能力或理解？</li>
+        <li>回台灣後，這段經驗會怎麼延續？</li>
       </ol>
-      <div class="small">官方表格本身是空白頁，重點不在文藻，而在個人性、制度目的與計畫的合理性。</div>
+    </div>
+
+    <div class="card span-6">
+      <h3 style="margin-top:0">常見弱寫法 → 改寫方向</h3>
+      <table>
+        <thead><tr><th>過於空泛</th><th>改成可驗證的個人理由</th></tr></thead>
+        <tbody>
+          <tr><td>我很喜歡日本文化。</td><td>指出是哪一種文化、何時開始、做過什麼，以及為何需要長期生活才能深入。</td></tr>
+          <tr><td>我想提升日文。</td><td>寫明目前程度、預計在哪些生活場景使用，以及希望透過在地交流達到什麼改變。</td></tr>
+          <tr><td>我想去很多地方旅行。</td><td>改成幾個有主題的移動，例如追四季祭典、地方鐵道、雪季、農村或地方創生。</td></tr>
+          <tr><td>我想去日本工作看看。</td><td>把工作降為補助生活費，主體改成文化／生活體驗；若有工作類型，說明它如何支持主題。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card span-6">
+      <h3 style="margin-top:0">計畫書：把理由書變成時間軸</h3>
+      <ol>
+        <li><b>分季節／期間：</b>通常用 3–4 段最清楚，例如冬、春、夏、秋；不用排成每日行程。</li>
+        <li><b>每段至少有「地點＋活動＋理由」：</b>不要只有城市名。</li>
+        <li><b>把理由書的主題落地：</b>理由書寫祭典，就在對應月份安排實際地區與活動；寫滑雪，就安排雪季與雪場地區。</li>
+        <li><b>保留合理彈性：</b>計畫是預定，不需要假裝所有住宿與工作都已確定。</li>
+        <li><b>工作只佔一小部分：</b>可以寫預計從事短期餐飲、旅宿、農業、雪場等來補貼旅費，但不要讓每一季都只剩工作。</li>
+        <li><b>與簽證申請表一致：</b>預定入境地、最初住宿地點、第一段計畫不要互相衝突。</li>
+      </ol>
+    </div>
+
+    <div class="card span-6">
+      <h3 style="margin-top:0">交件前自我檢查</h3>
+      <div class="checkrow"><input type="checkbox"><label>看完理由書，別人能說出「為什麼是我、為什麼是日本、為什麼要一年」嗎？</label></div>
+      <div class="checkrow"><input type="checkbox"><label>理由書至少有 2–3 個只屬於自己的具體經驗，而不是任何人都能套用的句子嗎？</label></div>
+      <div class="checkrow"><input type="checkbox"><label>工作是否明確只是補助旅費，而不是主要目的？</label></div>
+      <div class="checkrow"><input type="checkbox"><label>理由書提到的核心主題，都能在計畫書找到對應安排嗎？</label></div>
+      <div class="checkrow"><input type="checkbox"><label>有沒有出現互相矛盾的地點、季節、入境城市或住宿資訊？</label></div>
+      <div class="checkrow"><input type="checkbox"><label>最後版本是自己改寫過的語氣，而不是網路範本或 AI 套版語氣？</label></div>
+    </div>
+
+    <div class="card span-12">
+      <h3 style="margin-top:0">網路寫作參考｜非官方</h3>
+      <p class="small">以下適合看「別人如何組織內容」，不要直接複製句子；是否通過也不能證明某種寫法就是官方偏好。</p>
+      <div class="source-list">
+        <a target="_blank" rel="noopener" href="https://www.dcard.tw/f/workingholiday/p/261064191"><b>Dcard｜2026 日本打工度假申請攻略</b><br><span class="small">分享者把理由書拆成日本緣分、海外轉折、個人背景、具體學習／探索計畫等段落。</span></a>
+        <a target="_blank" rel="noopener" href="https://www.dcard.tw/f/workingholiday/p/254736204"><b>Dcard｜理由書與計畫書申請分享</b><br><span class="small">主張把重點放在需要長期停留才能體驗的事情，避免以打工與賺錢為核心。</span></a>
+        <a target="_blank" rel="noopener" href="https://workingholiday-japan.tw/work-in-japan/visa/7914/"><b>日本工作＆打工度假介紹 RNC｜理由書、計畫書寫法</b><br><span class="small">整理從個人對日本的連結、長期生活憧憬到依季節／興趣安排計畫的常見寫法。</span></a>
+      </div>
     </div>
   </div>
 </section>
@@ -472,15 +555,37 @@ function ymd(d){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 function updateCountdown(){
-  const now=new Date();
-  const open=new Date(2026,9,19,0,0,0);
-  const close=new Date(2026,9,30,16,0,0);
-  const result=new Date(2026,11,11,0,0,0);
-  const days=x=>Math.max(0,Math.ceil((x-now)/86400000));
-  if(now<open) $('#countdown').textContent=`${days(open)} 天後開放送件`;
-  else if(now<=close) $('#countdown').textContent=`申請期間進行中｜約 ${days(close)} 天後截止`;
-  else if(now<result) $('#countdown').textContent=`已截止｜${days(result)} 天後公布結果`;
-  else $('#countdown').textContent='本期已進入結果／領證階段';
+  const now = new Date();
+  const open = new Date('2026-10-19T09:15:00+08:00');
+  const close = new Date('2026-10-30T16:00:00+08:00');
+  const resultDay = new Date('2026-12-11T00:00:00+08:00');
+
+  let target, label;
+  if(now < open){
+    target = open;
+    label = '距離後期申請開放';
+  }else if(now <= close){
+    target = close;
+    label = '申請期間進行中｜距離截止';
+  }else if(now < resultDay){
+    target = resultDay;
+    label = '申請已截止｜距離結果公布日';
+  }else{
+    $('#countdownStatus').textContent = '本期已進入結果／領證階段';
+    ['cdDays','cdHours','cdMinutes','cdSeconds'].forEach(id => $('#'+id).textContent = '00');
+    return;
+  }
+
+  let ms = Math.max(0, target - now);
+  const days = Math.floor(ms / 86400000); ms %= 86400000;
+  const hours = Math.floor(ms / 3600000); ms %= 3600000;
+  const minutes = Math.floor(ms / 60000); ms %= 60000;
+  const seconds = Math.floor(ms / 1000);
+  $('#countdownStatus').textContent = label;
+  $('#cdDays').textContent = String(days);
+  $('#cdHours').textContent = String(hours).padStart(2,'0');
+  $('#cdMinutes').textContent = String(minutes).padStart(2,'0');
+  $('#cdSeconds').textContent = String(seconds).padStart(2,'0');
 }
 
 function checkEligibility(){
@@ -561,7 +666,7 @@ $('#shareBtn').addEventListener('click',async()=>{
   }catch(e){}
 });
 updateCountdown(); restore();
-setInterval(updateCountdown,60000);
+setInterval(updateCountdown,1000);
 </script>
 </body>
 </html>
