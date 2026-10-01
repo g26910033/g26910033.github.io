@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="2026 年後期日本打工度假申請工作站（台灣申請人）">
+<title>2026 日本打工度假・後期申請工作站</title>
+<style>
+:root{
+  --bg:#f7f7f5;
+  --card:#ffffff;
+  --ink:#171717;
+  --muted:#66645f;
+  --line:#e5e3dc;
+  --accent:#b42318;
+  --accent2:#7a271a;
+  --soft:#fff3f0;
+  --ok:#116329;
+  --warn:#8a4b08;
+  --shadow:0 10px 30px rgba(0,0,0,.06);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  line-height:1.65;
+}
+a{color:var(--accent2);text-decoration-thickness:1px;text-underline-offset:3px}
+button,input,select{font:inherit}
+.container{width:min(1160px,calc(100% - 32px));margin:auto}
+.hero{
+  background:linear-gradient(135deg,#1c1c1c 0%,#2e2623 55%,#5f2119 100%);
+  color:white;
+  padding:58px 0 44px;
+}
+.hero-grid{display:grid;grid-template-columns:1.5fr .8fr;gap:28px;align-items:end}
+.kicker{font-weight:700;letter-spacing:.08em;font-size:.85rem;opacity:.78}
+h1{font-size:clamp(2.1rem,5vw,4.1rem);line-height:1.06;margin:.35rem 0 1rem;letter-spacing:-.035em}
+.hero p{max-width:760px;color:#f2ece9;margin:0}
+.hero-side{
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08);
+  border-radius:18px;
+  padding:20px;
+  backdrop-filter:blur(6px);
+}
+.hero-side strong{display:block;font-size:1.4rem;margin-top:4px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 15px;border:1px solid var(--line);border-radius:999px;
+  background:white;color:var(--ink);text-decoration:none;cursor:pointer;font-weight:650
+}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:white}
+.btn.dark{background:#242424;border-color:#444;color:white}
+.btn.ghost{background:transparent}
+.hero .btn.ghost{border-color:rgba(255,255,255,.35);color:white}
+.nav{
+  position:sticky;top:0;z-index:20;
+  background:rgba(247,247,245,.94);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)
+}
+.nav-inner{display:flex;gap:8px;overflow:auto;padding:10px 0}
+.nav a{white-space:nowrap;text-decoration:none;padding:7px 12px;border-radius:999px;color:#444}
+.nav a:hover{background:white}
+main{padding:30px 0 70px}
+section{scroll-margin-top:70px;margin:26px 0 42px}
+.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:14px}
+.section-head h2{margin:0;font-size:1.6rem;letter-spacing:-.02em}
+.section-head p{margin:0;color:var(--muted);max-width:620px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:20px
+}
+.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+.metric .label{color:var(--muted);font-size:.88rem}
+.metric .value{font-size:1.5rem;font-weight:760;margin-top:2px}
+.metric .sub{color:var(--muted);font-size:.9rem;margin-top:3px}
+.alert{border-left:4px solid var(--accent);background:var(--soft);padding:14px 16px;border-radius:10px}
+.alert.ok{border-left-color:var(--ok);background:#f0f8f2}
+.alert.warn{border-left-color:var(--warn);background:#fff8ed}
+.small{font-size:.89rem;color:var(--muted)}
+.mono{font-variant-numeric:tabular-nums}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.step{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}
+.step b{display:block}
+.step time{font-size:.86rem;color:var(--muted)}
+label.field{display:block;margin:0 0 12px}
+label.field span{display:block;font-weight:700;margin-bottom:5px}
+input[type="date"],select{
+  width:100%;padding:10px 11px;border:1px solid #cfcac0;border-radius:10px;background:white;color:var(--ink)
+}
+.checkrow{display:flex;gap:10px;align-items:flex-start;margin:10px 0}
+.checkrow input{margin-top:5px;transform:scale(1.15)}
+.result{margin-top:14px;padding:14px;border-radius:12px;border:1px solid var(--line);background:#fafafa}
+.result.pass{border-color:#b6d8c0;background:#f2faf4}
+.result.fail{border-color:#efb1a9;background:#fff5f3}
+.pill{display:inline-flex;padding:3px 9px;border-radius:999px;font-size:.78rem;font-weight:700;background:#efeee9;color:#555}
+.pill.req{background:#fbe7e4;color:#8b1e13}.pill.opt{background:#eef3f7;color:#405365}
+.docs{display:grid;gap:10px}
+.doc{
+  border:1px solid var(--line);border-radius:14px;background:#fff;padding:15px;
+  display:grid;grid-template-columns:auto 1fr auto;gap:13px;align-items:start
+}
+.doc input{margin-top:6px;transform:scale(1.18)}
+.doc h3{font-size:1rem;margin:0 0 3px}
+.doc p{margin:0;color:var(--muted);font-size:.9rem}
+.doc-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.mini{
+  border:1px solid var(--line);border-radius:999px;padding:5px 9px;
+  text-decoration:none;color:#3e3d39;background:#fafafa;font-size:.8rem;white-space:nowrap
+}
+.progress-wrap{height:10px;background:#e9e7e1;border-radius:99px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:var(--accent);transition:width .2s}
+.source-list{display:grid;gap:8px}
+.source-list a{display:block;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:700}
+details{border:1px solid var(--line);border-radius:12px;background:white;padding:0 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:700;padding:13px 0}
+details>div{padding:0 0 14px}
+.callout-title{font-weight:760;margin-bottom:3px}
+footer{border-top:1px solid var(--line);padding:28px 0 50px;color:var(--muted);font-size:.88rem}
+.hide-print{}
+@media(max-width:880px){
+  .hero-grid{grid-template-columns:1fr}
+  .span-4,.span-5,.span-6,.span-7,.span-8{grid-column:span 12}
+  .timeline{grid-template-columns:1fr 1fr}
+  .doc{grid-template-columns:auto 1fr}.doc-actions{grid-column:2;justify-content:flex-start}
+}
+@media(max-width:560px){
+  .container{width:min(100% - 22px,1160px)}
+  .hero{padding-top:42px}
+  .timeline{grid-template-columns:1fr}
+  .section-head{display:block}.section-head p{margin-top:5px}
+  .btn{width:auto}
+}
+@media print{
+  .nav,.hide-print,.hero-actions{display:none!important}
+  body{background:white;font-size:11pt}
+  .hero{background:white;color:black;padding:20px 0;border-bottom:2px solid #111}
+  .hero p,.hero-side{color:black}
+  .hero-side{border:1px solid #aaa;background:white}
+  main{padding-top:10px}
+  .card,.doc,.step{box-shadow:none;break-inside:avoid}
+  a{color:black;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="kicker">台灣申請人｜2026 後期｜官方資料核對版</div>
+      <h1>日本打工度假<br>申請工作站</h1>
+      <p>從資格快篩、送件日倒推文件效期、11 項資料清單，到 12 月結果公布與領證，一頁完成。進度只儲存在你自己的瀏覽器，不會上傳。</p>
+      <div class="hero-actions hide-print">
+        <a class="btn primary" href="#planner">開始規劃</a>
+        <button class="btn ghost" id="shareBtn" type="button">分享這一頁</button>
+        <button class="btn ghost" type="button" onclick="window.print()">列印／存成 PDF</button>
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="small" style="color:#eadbd6">距離 2026 後期申請</div>
+      <strong id="countdown">計算中</strong>
+      <div class="small" style="color:#eadbd6;margin-top:8px">申請：2026/10/19–10/30<br>10/26 休所｜結果：2026/12/11</div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#overview">關鍵日期</a>
+    <a href="#eligibility">資格快篩</a>
+    <a href="#planner">送件日規劃</a>
+    <a href="#documents">文件清單</a>
+    <a href="#writing">理由書／計畫書</a>
+    <a href="#submission">現場送件</a>
+    <a href="#result">結果與領證</a>
+    <a href="#sources">官方來源</a>
+  </div>
+</nav>
+
+<main class="container">
+<section id="overview">
+  <div class="section-head">
+    <div><h2>2026 後期關鍵日期</h2></div>
+    <p>打工度假不是先到先審。若申請量超過核發量，官方會依制度宗旨與發給要件進行審查選出合格者。</p>
+  </div>
+  <div class="grid">
+    <div class="card metric span-4"><div class="label">後期送件期間</div><div class="value mono">10/19–10/30</div><div class="sub">2026 年；10/26（一）休所</div></div>
+    <div class="card metric span-4"><div class="label">受理時間</div><div class="value mono">09:15–11:30</div><div class="sub mono">13:45–16:00</div></div>
+    <div class="card metric span-4"><div class="label">審查結果</div><div class="value mono">12/11</div><div class="sub">公布合格「受理號碼」</div></div>
+    <div class="card metric span-4"><div class="label">後期領證期間</div><div class="value mono">12/14–6/11</div><div class="sub">2026/12/14–2027/06/11</div></div>
+    <div class="card metric span-4"><div class="label">年度核發上限</div><div class="value mono">10,000 件</div><div class="sub">前、後期合計的年度發給件數</div></div>
+    <div class="card metric span-4"><div class="label">一生最多參加</div><div class="value mono">2 次</div><div class="sub">自 2026/02 起適用台灣</div></div>
+  </div>
+  <div class="alert warn" style="margin-top:14px">
+    <b>2026 後期有新版履歷書。</b> 官方於 2026 年 9 月更新格式，請不要沿用舊檔。
+  </div>
+</section>
+
+<section id="eligibility">
+  <div class="section-head">
+    <div><h2>資格快篩</h2></div>
+    <p>這是依官方公開條件做的表面檢查，不代表審查結果或核發保證。</p>
+  </div>
+  <div class="grid">
+    <div class="card span-6">
+      <label class="field"><span>出生日期</span><input id="birth" type="date"></label>
+      <label class="field"><span>過去已取得／被視為取得日本打工度假簽證次數</span>
+        <select id="priorCount">
+          <option value="">請選擇</option>
+          <option value="0">0 次</option>
+          <option value="1">1 次</option>
+          <option value="2">2 次以上</option>
+        </select>
+      </label>
+      <div class="checkrow"><input id="resTaiwan" type="checkbox"><label for="resTaiwan">申請時居住在台灣</label></div>
+      <div class="checkrow"><input id="passportOk" type="checkbox"><label for="passportOk">持有效台灣護照，且護照載有身分證字號</label></div>
+      <div class="checkrow"><input id="holidayPurpose" type="checkbox"><label for="holidayPurpose">赴日主要目的為度假／文化生活體驗，工作只是補貼旅費</label></div>
+      <div class="checkrow"><input id="noDependents" type="checkbox"><label for="noDependents">沒有攜帶被扶養者同行（家屬另持有效簽證者除外）</label></div>
+      <div class="checkrow"><input id="fundsOk" type="checkbox"><label for="fundsOk">可提出至少新台幣 8 萬元的合格存款證明</label></div>
+      <div class="checkrow"><input id="healthOk" type="checkbox"><label for="healthOk">符合健康、無不良紀錄或犯罪紀錄等官方條件</label></div>
+      <button class="btn primary hide-print" id="checkEligibility" type="button">檢查</button>
+      <div id="eligibilityResult" class="result">請完成欄位後按「檢查」。</div>
+    </div>
+    <div class="card span-6">
+      <div class="callout-title">2026 後期出生日期範圍</div>
+      <p class="mono"><b>1995/10/20 ～ 2008/10/30</b></p>
+      <p class="small">官方另外要求：實際到窗口提出申請時，須為滿 18 歲以上、30 歲以下。</p>
+      <div class="alert" style="margin-top:16px">
+        <b>第二次打工度假：</b>2026 年起可再申請一次。但曾經合格後無特殊理由取消、未領證，或領證後未使用而失效者，官方可能仍視為已核發 1 次。2019 年因疫情無法赴日者有特別例外。
+      </div>
+      <p class="small" style="margin-top:14px">另外，官方要求在日停留期間應投保可涵蓋疾病、受傷及死亡的保險；正式保險證明主要在領證時提出。</p>
+    </div>
+  </div>
+</section>
+
+<section id="planner">
+  <div class="section-head">
+    <div><h2>送件日規劃器</h2></div>
+    <p>選擇你打算親自送件的日期，工作站會直接算出幾份「有期限的證明」最早何時開立。</p>
+  </div>
+  <div class="grid">
+    <div class="card span-5">
+      <label class="field"><span>預定送件日</span><input id="applyDate" type="date" min="2026-10-19" max="2026-10-30" value="2026-10-20"></label>
+      <label class="field"><span>預定送件事務所</span>
+        <select id="office">
+          <option value="taipei">台北事務所</option>
+          <option value="kaohsiung">高雄事務所</option>
+        </select>
+      </label>
+      <div id="officeInfo" class="result"></div>
+      <div class="alert warn" style="margin-top:14px">首日往年較多人，但不是先到先審；若特定日人潮超過處理量，官方可能請你改在申請期間內其他日期再來。</div>
+    </div>
+    <div class="card span-7">
+      <div id="dateValidation" class="alert ok">此日可送件。</div>
+      <table style="margin-top:10px">
+        <thead><tr><th>文件</th><th>官方期限</th><th>依此送件日，建議開立日</th></tr></thead>
+        <tbody>
+          <tr><td>存款證明</td><td>申請日前 1 個月內</td><td id="bankWindow"></td></tr>
+          <tr><td>戶籍謄本（如需）</td><td>3 個月內</td><td id="householdWindow"></td></tr>
+          <tr><td>入出國日期證明書</td><td>10 日內發行</td><td id="niaWindow"></td></tr>
+          <tr><td>證件照</td><td>6 個月內拍攝</td><td id="photoWindow"></td></tr>
+        </tbody>
+      </table>
+      <p class="small">入出國日期證明要有最近 3 年紀錄，且包含「入出境地點」資訊。具自然人憑證者可使用移民署線上申辦並自行列印。</p>
+      <a class="btn hide-print" target="_blank" rel="noopener" href="https://www.gov.tw/News_Content_2_371276">移民署／E政府線上申辦說明</a>
+    </div>
+  </div>
+</section>
+
+<section id="documents">
+  <div class="section-head">
+    <div>
+      <h2>11 項申請文件</h2>
+      <div class="small" id="progressText">已完成 0 / 11</div>
+    </div>
+    <div style="min-width:220px;max-width:360px;flex:1"><div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div></div>
+  </div>
+  <div class="docs">
+    <div class="doc">
+      <input class="doc-check" id="d1" type="checkbox"><div><h3>1. 赴日簽證申請表 <span class="pill req">必備</span></h3><p>使用官方表格。申請日期填實際送件日；本人簽名應與護照簽名一致。</p></div>
+      <div class="doc-actions"><a class="mini" target="_blank" rel="noopener" href="https://www.koryu.or.jp/Portals/0/taipei/2023/1019/WH_%E8%B5%B4%E6%97%A5%E7%B0%BD%E8%AD%89%E7%94%B3%E8%AB%8B%E8%A1%A8.PDF">官方表格 PDF</a><a class="mini" target="_blank" rel="noopener" href="https://www.koryu.or.jp/Portals/0/taipei/2023/1019/WH_%E8%B5%B4%E6%97%A5%E7%B0%BD%E8%AD%89%E7%94%B3%E8%AB%8B%E8%A1%A8%E7%AF%84%E4%BE%8B.pdf">官方填寫範例</a></div>
+    </div>
+    <div class="doc">
+      <input class="doc-check" id="d2" type="checkbox"><div><h3>2. 白底彩色證件照 1 張 <span class="pill req">必備</span></h3><p>4.5 × 3.5 cm、6 個月內、正面、脫帽、白底，貼在簽證申請表。</p></div><div></div>
+    </div>
+    <div class="doc">
+      <input class="doc-check" id="d3" type="checkbox"><div><h3>3. 台灣身分證影本 <span class="pill req">必備</span></h3><p>正、反面印在 A4 白紙上。</p></div><div></div>
+    </div>
+    <div class="doc">
+      <input class="doc-check" id="d4" type="checkbox"><div><h3>4. 履歷書（2026 年 9 月新版） <span class="pill req">必備</span></h3><p>中文或日文；可電腦打字，但簽名欄要本人親筆簽名。新版新增／整理海外居住、學經歷、赴日與過往 WH 申請紀錄等。</p></div>
+      <div class="doc-actions"><a class="mini" target="_blank" rel="noopener" href="https://www.koryu.or.jp/Portals/0/taipei/2026/0915/20260911_WH_rirekisyo1.xlsx">新版 Excel</a><a class="mini" target="_blank" rel="noopener" href="https://www.koryu.or.jp/Portals/0/taipei/2026/0915/20260911_WH_rirekisyo2.pdf">新版 PDF</a></div>
+    </div>
+    <div class="doc">
+      <input class="doc-check" id="d5" type="checkbox"><div><h3>5. 理由書 <span class="pill req">必備</span></h3><p>說明為什麼希望利用打工度假制度。第二次申請者還要說明為何希望第二次赴日 WH。</p></div>
+      <div class="doc-actions"><a class="mini" target="_blank" rel="noopener" href="https://www.koryu.or.jp/Portals/0/taipei/2023/1019/WH_%E7%90%86%E7%94%B1%E6%9B%B8.doc">Word</a><a class="mini" target="_blank" rel="noopener" href="https://www.koryu.or.jp/Portals/0/taipei/2024/0426/WH_%E7%90%86%E7%94%B1%E6%9B%B8-2.pdf">PDF</a></div>
+    </div>
+    <div class="doc">
+      <input class="doc-check" id="d6" type="checkbox"><div><h3>6. 計畫書 <span class="pill req">必備</span></h3><p>說明赴日後希望從事的活動。內容要能看出「度假／文化體驗是主體，工作為補助旅費」。</p></div>
+      <div class="doc-actions"><a class="mini" target="_blank" rel="noopener" href="https://www.koryu.or.jp/Portals/0/taipei/2023/1019/WH_%E8%A8%88%E5%8A%83%E6%9B%B8.doc">Word</a><a class="mini" target="_blank" rel="noopener" href="https://www.koryu.or.jp/Portals/0/taipei/2024/0426/WH_%E8%A8%88%E5%8A%83%E6%9B%B8.pdf">PDF</a></div>
+    </div>
+    <div class="doc">
+      <input class="doc-check" id="d7" type="checkbox"><div><h3>7. 最終學歷等證明 <span class="pill req">必備</span></h3><p>例如在學／休學證明正本、畢業證書影本等。學生證若沒有官方要求的替代在學證明註記，不被認可。</p></div><div></div>
+    </div>
+    <div class="doc">
+      <input class="doc-check" id="d8" type="checkbox"><div><h3>8. 新台幣 8 萬元以上存款證明 <span class="pill req">必備</span></h3><p>銀行或郵局開立的正本，須為申請日前 1 個月內。存摺影本不認可。若用親屬名下存款，另附 3 個月內戶籍謄本正本證明關係。</p></div><div></div>
+    </div>
+    <div class="doc">
+      <input class="doc-check" id="d9" type="checkbox"><div><h3>9. 自我推薦文件影本 <span class="pill opt">非絕對必要</span></h3><p>例如 JLPT、BJT、日語學校修了證明、日本文化／技藝相關證書。</p></div><div></div>
+    </div>
+    <div class="doc">
+      <input class="doc-check" id="d10" type="checkbox"><div><h3>10. 護照影本＋護照正本 <span class="pill req">必備</span></h3><p>影印照片資料頁（含簽名欄）。最近 1 年曾赴日、或曾以中長期身分在日居留者，另依官方要求附相關簽證／上陸許可／在留卡影本。送件時帶同一本護照正本。</p></div><div></div>
+    </div>
+    <div class="doc">
+      <input class="doc-check" id="d11" type="checkbox"><div><h3>11. 最近三年入出國日期證明書正本 <span class="pill req">必備</span></h3><p>須為移民署於 10 日內發行，且紀錄要包含入出境地點。</p></div>
+      <div class="doc-actions"><a class="mini" target="_blank" rel="noopener" href="https://www.gov.tw/News_Content_2_371276">線上申辦說明</a></div>
+    </div>
+  </div>
+  <div class="alert" style="margin-top:14px">
+    <b>紙本規格總檢查：</b>A4、白色無花紋紙、原則單面印刷（只有簽證申請表可雙面）；黑色或深藍色原子筆；不可用鉛筆、易褪色墨水或可擦式原子筆。①④⑤⑥使用官方規定格式；④⑤⑥可打字，但簽名必須親簽。全部文件依 1–11 順序排好。
+  </div>
+  <div class="hide-print" style="margin-top:12px">
+    <button class="btn" id="resetProgress" type="button">重設勾選進度</button>
+  </div>
+</section>
+
+<section id="writing">
+  <div class="section-head">
+    <div><h2>理由書／計畫書寫作框架</h2></div>
+    <p>官方明確要求申請人本人撰寫；抄襲或有他人代筆之嫌，可能對審查不利。下列只提供組織框架，不是可直接複製的範文。</p>
+  </div>
+  <div class="grid">
+    <div class="card span-6">
+      <h3 style="margin-top:0">理由書：回答「為什麼一定要用 WH？」</h3>
+      <ol>
+        <li><b>個人脈絡：</b>你與日本語言、文化、地方、人際或專業興趣的具體連結。</li>
+        <li><b>制度適配：</b>說明你希望透過較長期生活理解日本，而不是單純旅遊，也不是以工作賺錢為主要目的。</li>
+        <li><b>想帶回什麼：</b>具體描述一年後希望形成的經驗、能力或跨文化理解。</li>
+        <li><b>第二次申請者：</b>補充第一次沒有完成、或第二次具明顯不同主題的理由，避免只是「再去一次」。</li>
+      </ol>
+      <div class="alert warn"><b>避免：</b>把「找到全職工作、賺錢、長期留日」寫成主要目標；這與 WH 制度的度假本旨衝突。</div>
+    </div>
+    <div class="card span-6">
+      <h3 style="margin-top:0">計畫書：讓一年的安排「看得出來是真的」</h3>
+      <ol>
+        <li><b>分段：</b>用 3–4 個季節／期間呈現，不必每天列行程。</li>
+        <li><b>地點：</b>說明預計居住或移動的城市／地區，以及為什麼選它們。</li>
+        <li><b>活動：</b>文化、地方生活、節慶、自然、語言學習、交流等要具體。</li>
+        <li><b>工作：</b>可寫可能的短期工作類型，但位置應是補貼生活／旅費，而不是整份計畫核心。</li>
+        <li><b>一致性：</b>理由書、履歷、預定入境地點、住宿與計畫書不要互相矛盾。</li>
+      </ol>
+      <div class="small">官方表格本身是空白頁，重點不在文藻，而在個人性、制度目的與計畫的合理性。</div>
+    </div>
+  </div>
+</section>
+
+<section id="submission">
+  <div class="section-head">
+    <div><h2>現場送件</h2></div>
+    <p>必須本人親自至日本台灣交流協會台北或高雄事務所提出；不接受代理或郵寄。</p>
+  </div>
+  <div class="timeline">
+    <div class="step"><time>STEP 1</time><b>出門前再數一次 11 項</b><span class="small">護照正本別只帶影本。</span></div>
+    <div class="step"><time>STEP 2</time><b>本人到場</b><span class="small">依 WH 專案受理時間，不要只看一般領事室時間。</span></div>
+    <div class="step"><time>STEP 3</time><b>取得受理領證憑單</b><span class="small">受理號碼是查結果、領簽證的關鍵。</span></div>
+    <div class="step"><time>STEP 4</time><b>拍照＋備份憑單</b><span class="small">原件仍要妥善保管；遺失可能無法領證。</span></div>
+  </div>
+  <div class="grid" style="margin-top:16px">
+    <div class="card span-6">
+      <h3 style="margin-top:0">台北事務所</h3>
+      <p>台北市松山區慶城街 28 號 通泰商業大樓</p>
+      <a target="_blank" rel="noopener" href="https://www.koryu.or.jp/tw/about/taipei/access/">官方聯絡／交通資訊</a>
+    </div>
+    <div class="card span-6">
+      <h3 style="margin-top:0">高雄事務所</h3>
+      <p>高雄市苓雅區和平一路 87 號 9F、10F 南和和平大樓</p>
+      <a target="_blank" rel="noopener" href="https://www.koryu.or.jp/tw/about/kaohsiung/access/">官方聯絡／交通資訊</a>
+    </div>
+  </div>
+  <div class="alert warn" style="margin-top:14px"><b>不要重複申請。</b>同一期向台北、高雄兩邊都送，或同一人重複送件，官方規定全部無效。</div>
+</section>
+
+<section id="result">
+  <div class="section-head">
+    <div><h2>12/11 查結果 → 合格後領證</h2></div>
+    <p>官方只公布合格的「受理號碼」。受理領證憑單遺失，可能無法確認結果或領取簽證。</p>
+  </div>
+  <div class="grid">
+    <div class="card span-6">
+      <h3 style="margin-top:0">本人領證需要</h3>
+      <ul>
+        <li>申請時同一本有效護照正本</li>
+        <li>受理領證憑單</li>
+        <li>在日停留期間涵蓋疾病、受傷、死亡的正式保險證明：正本＋影本</li>
+        <li>簽證費：<b>免除</b></li>
+      </ul>
+      <p class="small">保險種類與保額官方沒有特別限定，但必須能涵蓋在日停留期間上述情形，且領證時可確認已投保。</p>
+    </div>
+    <div class="card span-6">
+      <h3 style="margin-top:0">時間邏輯</h3>
+      <p><b>領證：</b>2026/12/14–2027/06/11。</p>
+      <p><b>簽證有效期間：</b>自 2026/12/14（本期領證期間首日）起算 1 年；實際以簽證標示為準。</p>
+      <p><b>在日可停留：</b>在簽證有效期間內實際入境並獲上陸許可後，從入境日開始計算 1 年。</p>
+      <p><b>不能延期：</b>若在簽證有效期間內沒有入境，簽證失效。</p>
+    </div>
+    <div class="card span-12">
+      <h3 style="margin-top:0">入境後別漏掉</h3>
+      <p>取得居住地後，須在 14 日內向居住地市區町村申報住址。由成田、羽田、中部、關西、新千歲、廣島、福岡等指定機場入境者，通常在入境審查時即取得在留卡；其他機場／港口則可能於住址申報後寄送。</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="section-head"><div><h2>容易搞錯的 6 件事</h2></div></div>
+  <details><summary>1. 是不是越早排隊越容易上？</summary><div>不是。官方明確表示不是先到先審；首日反而往年人潮較多。</div></details>
+  <details><summary>2. 2026 後期是抽籤嗎？</summary><div>官方描述為「嚴格審查」。若申請件數超過發給件數，會依制度宗旨及發給要件選出合格者，官方沒有把它描述成隨機抽籤。</div></details>
+  <details><summary>3. 可以把打工寫成主要目的嗎？</summary><div>不宜。制度本質是最長一年「度假」與文化／生活體驗，工作只能是補足旅費與生活費的附隨活動。</div></details>
+  <details><summary>4. 可以請家人幫忙送申請嗎？</summary><div>不可以。申請階段必須本人親自送件，不接受代理與郵寄；只有合格後「領證」階段才有親屬／友人代領的官方規則。</div></details>
+  <details><summary>5. 護照申請後換新可以嗎？</summary><div>官方審查依送件時的護照資料，領證時要求同一本護照。若本來就考慮換照，應先換好再申請。</div></details>
+  <details><summary>6. 存款證明可以用存摺影本嗎？</summary><div>不可以。官方要求銀行或郵局開立的新台幣 8 萬元以上「存款證明書正本」，且須在申請日前 1 個月內開立。</div></details>
+</section>
+
+<section id="sources">
+  <div class="section-head">
+    <div><h2>官方來源</h2></div>
+    <p>最後人工核對：2026/10/01。官方可能更新，送件前應再打開第一、第二項各檢查一次。</p>
+  </div>
+  <div class="source-list">
+    <a target="_blank" rel="noopener" href="https://www.koryu.or.jp/tw/visa/taipei/working/guide2026/"><b>日本台灣交流協會｜2026 年打工度假簽證須知</b></a>
+    <a target="_blank" rel="noopener" href="https://www.koryu.or.jp/tw/visa/taipei/working/guide2026/guide-detail1/"><b>日本台灣交流協會｜2026 後期申請所需文件</b></a>
+    <a target="_blank" rel="noopener" href="https://www.koryu.or.jp/tw/visa/taipei/working/tabid1405.html"><b>日本台灣交流協會｜2026 前後期申請手續</b></a>
+    <a target="_blank" rel="noopener" href="https://www.koryu.or.jp/tw/visa/taipei/working/guide2026/detail2/"><b>日本台灣交流協會｜領證所需資料</b></a>
+    <a target="_blank" rel="noopener" href="https://www.koryu.or.jp/tw/visa/taipei/working/FAQ/"><b>日本台灣交流協會｜打工度假 Q&A</b></a>
+    <a target="_blank" rel="noopener" href="https://www.mofa.go.jp/j_info/visit/w_holiday/"><b>日本外務省｜Working Holiday Programmes in Japan</b></a>
+    <a target="_blank" rel="noopener" href="https://www.gov.tw/News_Content_2_371276"><b>內政部移民署／E政府｜國人入出國日期證明書線上申辦</b></a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <b>用途：</b>朋友間申請準備與自我檢查。這不是日本台灣交流協會官方網站，也不是法律或簽證核發保證。若本頁與官方最新公告不一致，以官方公告為準。
+  </div>
+</footer>
+
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const fmt = d => new Intl.DateTimeFormat('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'}).format(d);
+
+function localDateOnly(str){
+  const [y,m,d]=str.split('-').map(Number);
+  return new Date(y,m-1,d,12,0,0);
+}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function shiftMonths(d,n){
+  const x=new Date(d), day=x.getDate();
+  x.setDate(1); x.setMonth(x.getMonth()+n);
+  const last=new Date(x.getFullYear(),x.getMonth()+1,0).getDate();
+  x.setDate(Math.min(day,last)); return x;
+}
+function ymd(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function updateCountdown(){
+  const now=new Date();
+  const open=new Date(2026,9,19,0,0,0);
+  const close=new Date(2026,9,30,16,0,0);
+  const result=new Date(2026,11,11,0,0,0);
+  const days=x=>Math.max(0,Math.ceil((x-now)/86400000));
+  if(now<open) $('#countdown').textContent=`${days(open)} 天後開放送件`;
+  else if(now<=close) $('#countdown').textContent=`申請期間進行中｜約 ${days(close)} 天後截止`;
+  else if(now<result) $('#countdown').textContent=`已截止｜${days(result)} 天後公布結果`;
+  else $('#countdown').textContent='本期已進入結果／領證階段';
+}
+
+function checkEligibility(){
+  const birth=$('#birth').value;
+  const prior=$('#priorCount').value;
+  const checks=['resTaiwan','passportOk','holidayPurpose','noDependents','fundsOk','healthOk'].every(id=>$('#'+id).checked);
+  const out=$('#eligibilityResult');
+  if(!birth || prior===''){out.className='result fail';out.textContent='請先填出生日期與過往 WH 次數。';return}
+  const b=localDateOnly(birth);
+  const min=localDateOnly('1995-10-20'), max=localDateOnly('2008-10-30');
+  const birthOk=b>=min && b<=max;
+  const priorOk=Number(prior)<2;
+  if(birthOk && priorOk && checks){
+    out.className='result pass';
+    out.innerHTML='<b>依你填的資料，表面上符合 2026 後期主要申請門檻。</b><br><span class="small">仍須完整備件並接受官方審查；此結果不代表一定核發。</span>';
+  }else{
+    const reasons=[];
+    if(!birthOk) reasons.push('出生日期不在本期官方受理範圍');
+    if(!priorOk) reasons.push('已達最多 2 次的核發上限');
+    if(!checks) reasons.push('有一項以上基本條件尚未勾選');
+    out.className='result fail';
+    out.innerHTML='<b>目前有條件未通過快篩：</b><br>'+reasons.map(x=>'・'+x).join('<br>');
+  }
+}
+
+const closed = new Set(['2026-10-24','2026-10-25','2026-10-26']);
+function updatePlanner(){
+  const v=$('#applyDate').value;
+  if(!v) return;
+  const d=localDateOnly(v);
+  const valid = v>='2026-10-19' && v<='2026-10-30' && !closed.has(v);
+  const box=$('#dateValidation');
+  if(valid){box.className='alert ok';box.innerHTML='<b>此日可送件。</b> 請仍以當日官方臨時公告為準。'}
+  else{box.className='alert warn';box.innerHTML='<b>此日不適合送件。</b> 2026/10/24–25 為週末；10/26 為光復節補假休所。'}
+  $('#bankWindow').textContent=`${fmt(shiftMonths(d,-1))} 之後開立`;
+  $('#householdWindow').textContent=`${fmt(shiftMonths(d,-3))} 之後開立`;
+  $('#niaWindow').textContent=`${fmt(addDays(d,-10))} 之後開立`;
+  $('#photoWindow').textContent=`${fmt(shiftMonths(d,-6))} 之後拍攝`;
+  localStorage.setItem('jpwh2026_applyDate',v);
+}
+function updateOffice(){
+  const v=$('#office').value;
+  const box=$('#officeInfo');
+  if(v==='taipei'){
+    box.innerHTML='<b>台北事務所</b><br>台北市松山區慶城街 28 號 通泰商業大樓<br><span class="small">WH 專案受理：09:15–11:30、13:45–16:00</span>';
+  }else{
+    box.innerHTML='<b>高雄事務所</b><br>高雄市苓雅區和平一路 87 號 9F、10F 南和和平大樓<br><span class="small">WH 專案受理：09:15–11:30、13:45–16:00</span>';
+  }
+  localStorage.setItem('jpwh2026_office',v);
+}
+function updateProgress(){
+  const checks=$$('.doc-check');
+  const n=checks.filter(c=>c.checked).length;
+  $('#progressText').textContent=`已完成 ${n} / ${checks.length}`;
+  $('#progressBar').style.width=`${n/checks.length*100}%`;
+  checks.forEach(c=>localStorage.setItem('jpwh2026_'+c.id,c.checked?'1':'0'));
+}
+function restore(){
+  const ad=localStorage.getItem('jpwh2026_applyDate'); if(ad) $('#applyDate').value=ad;
+  const office=localStorage.getItem('jpwh2026_office'); if(office) $('#office').value=office;
+  $$('.doc-check').forEach(c=>c.checked=localStorage.getItem('jpwh2026_'+c.id)==='1');
+  updatePlanner();updateOffice();updateProgress();
+}
+$('#checkEligibility').addEventListener('click',checkEligibility);
+$('#applyDate').addEventListener('change',updatePlanner);
+$('#office').addEventListener('change',updateOffice);
+$$('.doc-check').forEach(c=>c.addEventListener('change',updateProgress));
+$('#resetProgress').addEventListener('click',()=>{
+  $$('.doc-check').forEach(c=>c.checked=false); updateProgress();
+});
+$('#shareBtn').addEventListener('click',async()=>{
+  const data={title:document.title,text:'2026 年後期日本打工度假申請工作站'};
+  if(location.protocol.startsWith('http')) data.url=location.href;
+  try{
+    if(navigator.share){await navigator.share(data)}
+    else if(location.protocol.startsWith('http')){await navigator.clipboard.writeText(location.href);alert('網址已複製')}
+    else alert('目前是單一 HTML 檔。直接把這個檔案傳給朋友即可；若放到網站空間，分享按鈕會自動分享網址。');
+  }catch(e){}
+});
+updateCountdown(); restore();
+setInterval(updateCountdown,60000);
+</script>
+</body>
+</html>
